@@ -1,20 +1,24 @@
-# Japan Postal code
-JavaScript module for Japan Postal Code.
+# Japan Postal Code Lookup
+JavaScript module for searching Japan Postal Code.
+
+Forked from https://github.com/ZCloud-Firstserver/japan-postal-code
 
 Forked from https://github.com/ajaxzip3/ajaxzip3.github.io
 
 Forked from https://github.com/mzp/japan-postal-code
 
-Then add addess in English support.
+Then:
+- Update build database with postalcode data from http://jusyo.jp/
+- Update id and kana name for prefecture, city and area
 
 ## How to install
 ```
-npm install ZCloud-Firstserver/japan-postal-code
+npm install jp-postalcode-lookup
 ```
 
 ## How to use
 ```js
-var postal_code = require('japan-postal-code');
+var postal_code = require('jp-postalcode-lookup');
 
 // Upload /zipdata/*.js to CDN.
 // ex) http://example.com/zipdata/
@@ -22,15 +26,16 @@ var postal_code = require('japan-postal-code');
 postal_code.setJsonDataUrl('http://example.com/zipdata/zip-');
 
 postal_code.get('1000001', function(address) {
-  console.log(address.prefectureId); // => 13
-  console.log(address.prefecture);   // => '東京都'
-  console.log(address.city);         // => '千代田区'
-  console.log(address.area);         // => '千代田'
-  console.log(address.street);       // => ''
-  console.log(address.prefectureEn); // => "Tokyo"
-  console.log(address.cityEn);       // => "Chiyoda Ward"
-  console.log(address.areaEn);       // => "Chiyoda"
-  console.log(address.streetEn);     // => ""
+  console.log(address.prefectureId); 	  // => 13
+  console.log(address.prefecture);   	  // => '東京都'
+  console.log(address.prefectureKana);	  // => 'トウキョウト'
+  console.log(address.cityId);   		  // => 13101
+  console.log(address.city);         	  // => '千代田区'
+  console.log(address.cityKana);    	  // => 'チヨダク'
+  console.log(address.areaId);         	  // => 131010045
+  console.log(address.area);         	  // => '千代田'
+  console.log(address.areaKana);          // => 'チヨダ'
+  console.log(address.street);       	  // => ''        
 });
 ```
 
@@ -43,10 +48,10 @@ npm run test-makejsonpdata-from-csv --test
 ## How to update postalcode data
 
 ```
-wget http://www.post.japanpost.jp/zipcode/dl/roman/ken_all_rome.zip
-unzip ken_all_rome.zip
-nkf -Sw KEN_ALL_ROME.CSV > KEN_ALL_ROME.UTF8.CSV
-python ./makejsonpdata-from-csv.py KEN_ALL_ROME.UTF8.CSV
+wget http://jusyo.jp/downloads/new/csv/csv_zenkoku.zip
+unzip csv_zenkoku.zip
+nkf -Sw zenkoku.csv > zenkoku.utf8.csv
+python ./makejsonpdata-from-csv.py zenkoku.utf8.csv
 ```
 
 ## LICENSE

@@ -1,30 +1,28 @@
 {
-  "name": "japan-postal-code",
-  "version": "0.3.0",
-  "description": "Japan postal code library",
+  "name": "jp-postalcode-lookup",
+  "version": "0.0.1",
+  "description": "Japan postal code lookup library",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/meltedice/japan-postal-code"
+    "url": "https://github.com/danglephuc/jp-postalcode-lookup"
   },
   "keywords": [
     "zip",
-    "postal code"
+    "postal code",
+    "japan zipcode"    
   ],
-  "author": "mzp",
+  "author": "PhucDL",
   "contributors": [
     {
-      "name": "mzp"
-    },
-    {
-      "name": "meltedice",
-      "url": "https://github.com/meltedice",
-      "email": "meltedise@gmail.com"
+      "name": "PhucDL",
+      "url": "https://github.com/danglephuc",
+      "email": "danglephuc@gmail.com"
     }
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mzp/japan-postal-code/issues"
+    "url": "https://github.com/danglephuc/jp-postalcode-lookup/issues"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",

@@ -3,11 +3,11 @@
 # -*- coding: utf-8 -*-
 
 # dataフォルダ内の郵便番号データをJSONP形式にしてzipdataフォルダ内に保存します
-# See: http://www.post.japanpost.jp/zipcode/dl/roman-zip.html
-#     wget http://www.post.japanpost.jp/zipcode/dl/roman/ken_all_rome.zip
-#     unzip ken_all_rome.zip
-#     nkf -Sw KEN_ALL_ROME.CSV > KEN_ALL_ROME.UTF8.CSV
-#     python ./makejsonpdata-from-csv.py KEN_ALL_ROME.UTF8.CSV
+# See: http://jusyo.jp/csv/document.html
+#     wget http://jusyo.jp/downloads/new/csv/csv_zenkoku.zip
+#     unzip csv_zenkoku.zip
+#     nkf -Sw zenkoku.csv > zenkoku.utf8.csv
+#     python ./makejsonpdata-from-csv.py zenkoku.utf8.csv
 
 import sys
 import csv
@@ -166,19 +166,17 @@ def loadAddresses(file_name):
     with open(file_name, 'rb') as f:
         reader = csv.reader(f)
         for row in reader:
-            postalcode, prefecture_ja, city_ja, area_ja, prefecture_ro, city_ro, area_ro = row
+            addresscode, statecode, city_id, area_id, postalcode, office_flag, deprecated_flag, prefecture_ja, prefecture_kana, city_ja, city_kana, area_ja, area_kana, item_14, item_15, item_16, item_17, item_18, item_19, item_20, item_21, item_22 = row
             street_ja, street_ro, street_en = '', '', ''
             original_city_ja = city_ja
-
+			
+            postalcode = postalcode.replace('-', '')
             postalcode3   = postalcode[0:3]
-            prefecture_id = prefecture_ja_to_prefecture_id(prefecture_ja)
-            prefecture_en = normalize_prefecture_en(prefecture_ro)
-            city_ja = normalize_city_ja(city_ja)
-            city_en = normalize_city_en(city_ro)
-            area_ja = normalize_area_ja(area_ja)
-            area_en = normalize_area_en(area_ro)
+            prefecture_id = prefecture_ja_to_prefecture_id(prefecture_ja)            
+            city_ja = normalize_city_ja(city_ja)            
+            area_ja = normalize_area_ja(area_ja)            
 
-            address = [postalcode, prefecture_id, city_ja, area_ja, street_ja, city_en, area_en, street_en]
+            address = [postalcode, prefecture_id, city_id, city_ja, city_kana, area_id, area_ja, area_kana, street_ja]
 
             # print "%-90s          %-s" % (address_in_english(address), address_in_japanese(address))
 
@@ -201,7 +199,7 @@ def writeAddressesIntoJsonpFiles(addresses, path_prefix, callback_name):
         for postalcode in postalcode_list:
             records = []
             for address in sorted(addresses[postalcode3][postalcode], key=lambda a: a[0]):
-                record = '[{0[1]},"{0[2]}","{0[3]}","{0[4]}","{0[5]}","{0[6]}","{0[7]}"]'.format(address)
+                record = '[{0[1]},"{0[2]}","{0[3]}","{0[4]}","{0[5]}","{0[6]}","{0[7]}","{0[8]}"]'.format(address)
                 records.append(record)
             record_sets.append('"%s":[%s]' % (postalcode, ','.join(records)))
 
@@ -227,7 +225,7 @@ if __name__ == "__main__":
         if 1 < len(sys.argv):
             file_name = sys.argv[1]
         else:
-            file_name = 'KEN_ALL_ROME.UTF8.CSV'
+            file_name = 'zenkoku.utf8.csv'
 
         addresses = loadAddresses(file_name)
 

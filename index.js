@@ -1,6 +1,9 @@
 /* ================================================================ *
     ajaxzip3.js ---- AjaxZip3 郵便番号→住所変換ライブラリ
 
+	Copyright (c) 2021
+    https://github.com/ZCloud-Firstserver/japan-postal-code
+	
     Copyright (c) 2015 MIZUNO Hiroki
     http://github.com/mzp/japan-postal-code
 
@@ -52,19 +55,18 @@ var PREFMAP = [
     '宮崎県',   '鹿児島県', '沖縄県'
 ];
 
-var PREFMAP_EN = [
-    null,        'Hokkaido',  'Aomori',    'Iwate',    'Miyagi',
-    'Akita',     'Yamagata',  'Fukushima', 'Ibaraki',  'Tochigi',
-    'Gumma',     'Saitama',   'Chiba',     'Tokyo',    'Kanagawa',
-    'Niigata',   'Toyama',    'Ishikawa',  'Fukui',    'Yamanashi',
-    'Nagano',    'Gifu',      'Shizuoka',  'Aichi',    'Mie',
-    'Shiga',     'Kyoto',     'Osaka',     'Hyogo',    'Nara',
-    'Wakayama',  'Tottori',   'Shimane',   'Okayama',  'Hiroshima',
-    'Yamaguchi', 'Tokushima', 'Kagawa',    'Ehime',    'Kochi',
-    'Fukuoka',   'Saga',      'Nagasaki',  'Kumamoto', 'Oita',
-    'Miyazaki',  'Kagoshima', 'Okinawa'
+var PREFMAP_KANA = [
+    null,       'ホッカイドウ',   'アオモリケン',   'イワテケン',   'ミヤギケン',
+    'アキタケン',   'ヤマガタケン',   'フクシマケン',   'イバラキケン',   'トチギケン',
+    'グンマケン',   'サイタマケン',   'チバケン',   'トウキョウト',   'カナガワケン',
+    'ニイガタケン',   'トヤマケン',   'イシカワケン',   'フクイケン',   'ヤマナシケン',
+    'ナガノケン',   'ギフケン',   'シズオカケン',   'アイチケン',   'ミエケン',
+    'シガケン',   'キョウトフ',   'オオサカフ',   'ヒョウゴケン',   'ナラケン',
+    'ワカヤマケン', 'トットリケン',   'シマネケン',   'オカヤマケン',   'ヒロシマケン',
+    'ヤマグチケン',   'トクシマケン',   'カガワケン',   'エヒメケン',   'コウチケン',
+    'フクオカケン',   'サガケン',   'ナガサキケン',   'クマモトケン',   'オオイタケン',
+    'ミヤザキケン',   'カゴシマケン', 'オキナワケン'
 ];
-
 
 exports.setJsonDataUrl = function(url) {
   JSONDATA = url;
@@ -127,34 +129,31 @@ var parse = function(row) {
   if (!prefectureId) return null;
   var prefectureJa = PREFMAP[prefectureId];
   if (!prefectureJa) return null;
-  var prefectureEn = PREFMAP_EN[prefectureId];
-  if (!prefectureEn) return null;
+  var prefectureKana = PREFMAP_KANA[prefectureId];
+  if (!prefectureKana) return null;
 
-  var cityJa   = row[1] || '';
-  var areaJa   = row[2] || '';
-  var streetJa = row[3] || '';
-  var cityEn   = row[4] || '';
-  var areaEn   = row[5] || '';
-  var streetEn = row[6] || '';
+  var cityId   = row[1] || '';
+  var cityJa   = row[2] || '';
+  var cityKana = row[3] || '';
+  var areaId   = row[4] || '';
+  var areaJa   = row[5] || '';
+  var areaKana = row[6] || '';
+  var streetJa = row[7] || '';  
 
-  var addressJa = prefectureJa + cityJa + areaJa + streetJa;
-  var addressEn = prefectureEn + ', Japan';
-  if (cityEn)   addressEn = cityEn   + ', ' + addressEn;
-  if (areaEn)   addressEn = areaEn   + ', ' + addressEn;
-  if (streetEn) addressEn = streetEn + ', ' + addressEn;
+  var addressJa = prefectureJa + cityJa + areaJa + streetJa;   
 
   return {
-    'prefectureId': prefectureId,  // 都道府県ID
-    'prefecture':   prefectureJa,  // 都道府県名
-    'city':         cityJa,        // 市区町村名
-    'area':         areaJa,        // 町域名
-    'street':       streetJa,      // 番地
-    'address':      addressJa,     // 都道府県名 + 市区町村名 + 町域名 + 番地
-    'prefectureEn': prefectureEn,  // Prefecture
-    'cityEn':       cityEn,        // City
-    'areaEn':       areaEn,        // Area
-    'streetEn':     streetEn,      // Street
-    'addressEn':    addressEn      // Street, Area, City, Prefecture, Japan
+    'prefectureId': 	  prefectureId,  	// 都道府県ID
+    'prefecture':   	  prefectureJa,  	// 都道府県名
+	  'prefectureKana':   prefectureKana,	//
+	  'cityId':			      cityId,		   	  // 市区町村ID
+    'city':         	  cityJa,        	// 市区町村名
+	  'cityKana':     	  cityKana,	   	  // 
+	  'areaId':     		  areaId,	   	   	// 町域ID
+    'area':         	  areaJa,        	// 町域名
+	  'areaKana':     	  areaKana,      	//
+    'street':       	  streetJa,      	// 番地
+    'address':      	  addressJa,     	// 都道府県名 + 市区町村名 + 町域名 + 番地
   };
 };
 
