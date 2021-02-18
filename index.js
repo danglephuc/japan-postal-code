@@ -37,7 +37,7 @@
 
 var jsonp = require('jsonp');
 
-var JSONDATA = '/zipdata/zip-'; // Path or URL
+var JSONDATA = 'https://danglephuc.github.io/jp-postalcode-lookup/zipdata/zip-'; // Path or URL
 var CALLBACK_NAME = 'zipdata';
 var CACHE = [];
 

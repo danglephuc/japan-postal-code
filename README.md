@@ -20,11 +20,6 @@ npm install jp-postalcode-lookup
 ```js
 var postal_code = require('jp-postalcode-lookup');
 
-// Upload /zipdata/*.js to CDN.
-// ex) http://example.com/zipdata/
-//     http://example.com/zipdata/zip-001.js
-postal_code.setJsonDataUrl('http://example.com/zipdata/zip-');
-
 postal_code.get('1000001', function(address) {
   console.log(address.prefectureId); 	  // => 13
   console.log(address.prefecture);   	  // => '東京都'
@@ -37,6 +32,12 @@ postal_code.get('1000001', function(address) {
   console.log(address.areaKana);          // => 'チヨダ'
   console.log(address.street);       	  // => ''        
 });
+
+// Upload /zipdata/*.js to CDN.
+// ex) http://example.com/zipdata/
+//     http://example.com/zipdata/zip-001.js
+postal_code.setJsonDataUrl('http://example.com/zipdata/zip-');
+
 ```
 
 ## Tests
