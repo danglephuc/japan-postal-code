@@ -199,7 +199,7 @@ def writeAddressesIntoJsonpFiles(addresses, path_prefix, callback_name):
         for postalcode in postalcode_list:
             records = []
             for address in sorted(addresses[postalcode3][postalcode], key=lambda a: a[0]):
-                record = '[{0[1]},"{0[2]}","{0[3]}","{0[4]}","{0[5]}","{0[6]}","{0[7]}","{0[8]}"]'.format(address)
+                record = '[{0[1]},{0[2]},"{0[3]}","{0[4]}",{0[5]},"{0[6]}","{0[7]}","{0[8]}"]'.format(address)
                 records.append(record)
             record_sets.append('"%s":[%s]' % (postalcode, ','.join(records)))
 
